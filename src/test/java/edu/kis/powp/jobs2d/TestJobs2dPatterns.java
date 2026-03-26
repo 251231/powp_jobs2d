@@ -9,6 +9,7 @@ import edu.kis.legacy.drawer.panel.DefaultDrawerFrame;
 import edu.kis.legacy.drawer.panel.DrawPanelController;
 import edu.kis.legacy.drawer.shape.LineFactory;
 import edu.kis.powp.appbase.Application;
+import edu.kis.powp.command.ComplexCommand;
 import edu.kis.powp.jobs2d.drivers.adapter.DrawPanelAdapter;
 import edu.kis.powp.jobs2d.drivers.adapter.FiguresJaneAdapter;
 import edu.kis.powp.jobs2d.drivers.adapter.LineDrawerAdapter;
@@ -17,6 +18,11 @@ import edu.kis.powp.jobs2d.events.SelectTestFigureOptionListener;
 import edu.kis.powp.jobs2d.features.DrawerFeature;
 import edu.kis.powp.jobs2d.features.DriverFeature;
 import edu.kis.powp.jobs2d.magicpresets.FiguresJane;
+
+import javax.swing.*;
+
+import static edu.kis.powp.command.ShapeFactory.createRectangle;
+import static edu.kis.powp.command.ShapeFactory.createTriangle;
 
 public class TestJobs2dPatterns {
 	private final static Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
@@ -38,6 +44,14 @@ public class TestJobs2dPatterns {
         application.addTest("Figure Jane", (e) -> {
             FiguresJane.figureScript(new FiguresJaneAdapter());
         });
+
+		application.addTest("Draw shapes", (ActionEvent e) ->  {
+			Job2dDriver current = DriverFeature.getDriverManager().getCurrentDriver();
+			ComplexCommand rectangle = createRectangle(current,10,10,80,40);
+			rectangle.execute();
+			ComplexCommand triangle = createTriangle(current,0,0,0,30,30,0);
+			triangle.execute();
+		} );
 	}
 
 	/**
